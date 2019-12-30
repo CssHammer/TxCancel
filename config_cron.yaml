@@ -1,0 +1,3 @@
+db_connection: postgresql://root:password@db:5432/test?sslmode=disable
+interval_mins: 5
+record_count: 10

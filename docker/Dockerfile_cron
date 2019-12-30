@@ -1,0 +1,16 @@
+FROM golang:1.13.5-alpine3.10
+
+RUN mkdir /app
+WORKDIR /app
+COPY ./go.mod .
+COPY ./go.sum .
+
+RUN go mod download
+COPY . .
+
+RUN chmod +x ./docker/wait_for.sh
+
+WORKDIR cmd/
+RUN go build -o ./cron/cron ./cron
+
+ENTRYPOINT ["sh", "-c", "./cron/cron -c ../config_cron.yaml serve"]
